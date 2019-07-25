@@ -1,0 +1,10 @@
+kumuluzee:
+  name: jdbc-management
+  version: 1.0.0
+  env:
+    name: dev
+  datasources:
+    - jndi-name: jdbc/Managament
+      connection-url: jdbc:postgresql://localhost:5432/management
+      username: postgres
+      password: postgres
