@@ -5,13 +5,20 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
 @Entity(name = "movie")
 @NamedQueries(value = {
-        @NamedQuery(name = "Movie.getAll", query = "SELECT m FROM movie m")
+        @NamedQuery(name = "Movie.getAll", query = "SELECT m FROM movie m"),
+        @NamedQuery(name = "Movie.getMovieById", query = "SELECT m FROM movie m WHERE m.imdbid = :id"),
+        @NamedQuery(name = "Movie.deleteMovieById", query = "DELETE FROM movie m WHERE m.imdbid = :id"),
+        @NamedQuery(
+                name = "Movie.updateMovie",
+                query = "UPDATE movie m SET m.title = :title," +
+                        "m.description = :description," +
+                        "m.releaseYear = :releaseYear WHERE m.imdbid = :id"
+        )
 })
 public class Movie {
 
@@ -20,7 +27,6 @@ public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "imdbid")
-    @NotNull
     private Integer imdbid;
 
     @Getter

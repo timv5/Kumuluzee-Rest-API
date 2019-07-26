@@ -5,13 +5,21 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Entity(name = "actor")
 @NamedQueries(value = {
-        @NamedQuery(name = "Actor.getAll", query = "SELECT a FROM actor a")
+        @NamedQuery(name = "Actor.getAll", query = "SELECT a FROM actor a"),
+        @NamedQuery(name = "Actor.getActorById", query = "SELECT a FROM actor a WHERE a.id = :id"),
+        @NamedQuery(name = "Actor.deleteActorById", query = "DELETE FROM actor a WHERE a.id = :id"),
+        @NamedQuery(
+                name = "Actor.updateActor",
+                query = "UPDATE actor a SET a.firstname = :firstname," +
+                        "a.lastname = :lastname, a.birthDate = :birthDate," +
+                        "a.description = :description WHERE a.id = :id"
+        )
 })
 public class Actor {
 
@@ -20,7 +28,6 @@ public class Actor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    @NotNull
     private Integer id;
 
 
