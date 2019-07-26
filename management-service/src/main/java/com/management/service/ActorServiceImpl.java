@@ -69,10 +69,22 @@ public class ActorServiceImpl implements ActorService{
 
     @Override
     public Actor getActorById(final Integer id) {
-        TypedQuery<Actor> q = entityManager.createNamedQuery("Actor.getActorById", Actor.class);
+        TypedQuery<Actor> q = this.entityManager.createNamedQuery("Actor.getActorById", Actor.class);
         q.setParameter("id", id);
         try {
             return q.getSingleResult();
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List<Actor> searchActorsByName(final String firstname) {
+        TypedQuery<Actor> q = this.entityManager.createNamedQuery("Actor.searchActorsByName", Actor.class);
+        q.setParameter("firstname", firstname);
+        try {
+            return q.getResultList();
         }catch (Exception e){
             e.printStackTrace();
             return null;

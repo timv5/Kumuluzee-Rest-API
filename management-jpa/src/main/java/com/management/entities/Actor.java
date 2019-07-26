@@ -13,6 +13,7 @@ import java.util.List;
         @NamedQuery(name = "Actor.getAll", query = "SELECT a FROM actor a"),
         @NamedQuery(name = "Actor.getActorById", query = "SELECT a FROM actor a WHERE a.id = :id"),
         @NamedQuery(name = "Actor.deleteActorById", query = "DELETE FROM actor a WHERE a.id = :id"),
+        @NamedQuery(name = "Actor.searchActorsByName", query = "SELECT a FROM actor a WHERE a.firstname = :firstname"),
         @NamedQuery(
                 name = "Actor.updateActor",
                 query = "UPDATE actor a SET a.firstname = :firstname," +

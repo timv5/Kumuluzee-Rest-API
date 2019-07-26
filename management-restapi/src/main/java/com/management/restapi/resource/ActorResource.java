@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Path("/actor")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -65,5 +66,15 @@ public class ActorResource {
         return Response.status(Response.Status.OK).build();
     }
 
+    @GET
+    @Path("/search")
+    public Response searchActorByName(@QueryParam("firstname") final String firstname){
+        List<Actor> actors = this.actorServiceImpl.searchActorsByName(firstname);
+        if(!actors.isEmpty()){
+            return Response.ok(actors).build();
+        }else{
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+    }
 
 }

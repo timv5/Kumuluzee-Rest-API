@@ -1,5 +1,6 @@
 package com.management.service;
 
+import com.management.entities.Actor;
 import com.management.entities.Movie;
 
 import javax.annotation.PostConstruct;
@@ -71,10 +72,22 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Movie getMovieById(final Integer id) {
-        TypedQuery<Movie> q = entityManager.createNamedQuery("Movie.getMovieById", Movie.class);
+        TypedQuery<Movie> q = this.entityManager.createNamedQuery("Movie.getMovieById", Movie.class);
         q.setParameter("id", id);
         try {
             return q.getSingleResult();
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List<Movie> searchMovieByTitle(final String title) {
+        TypedQuery<Movie> q = this.entityManager.createNamedQuery("Movie.searchMoviesByTitle", Movie.class);
+        q.setParameter("title", title);
+        try {
+            return q.getResultList();
         }catch (Exception e){
             e.printStackTrace();
             return null;

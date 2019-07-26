@@ -13,6 +13,7 @@ import java.util.List;
         @NamedQuery(name = "Movie.getAll", query = "SELECT m FROM movie m"),
         @NamedQuery(name = "Movie.getMovieById", query = "SELECT m FROM movie m WHERE m.id = :id"),
         @NamedQuery(name = "Movie.deleteMovieById", query = "DELETE FROM movie m WHERE m.id = :id"),
+        @NamedQuery(name = "Movie.searchMoviesByTitle", query = "SELECT m FROM movie m WHERE m.title = :title"),
         @NamedQuery(
                 name = "Movie.updateMovie",
                 query = "UPDATE movie m SET m.title = :title," +

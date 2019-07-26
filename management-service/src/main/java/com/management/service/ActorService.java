@@ -38,4 +38,11 @@ public interface ActorService {
      */
     Actor updateActor(final Integer id, final Actor actor);
 
+    /**
+     * Find Actors by name
+     * @param firstname
+     * @return List of actors
+     */
+    List<Actor> searchActorsByName(final String firstname);
+
 }

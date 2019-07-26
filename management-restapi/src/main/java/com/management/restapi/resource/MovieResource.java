@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Path("/movie")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -64,6 +65,17 @@ public class MovieResource {
     public Response deleteMovie(@PathParam("id") final Integer id){
         this.movieService.deleteMovie(id);
         return Response.status(Response.Status.OK).build();
+    }
+
+    @GET
+    @Path("/search")
+    public Response searchActorByName(@QueryParam("title") final String title){
+        List<Movie> movies = this.movieService.searchMovieByTitle(title);
+        if(!movies.isEmpty()){
+            return Response.ok(movies).build();
+        }else{
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
     }
 
 }

@@ -1,5 +1,6 @@
 package com.management.service;
 
+import com.management.entities.Actor;
 import com.management.entities.Movie;
 
 import java.util.List;
@@ -37,5 +38,12 @@ public interface MovieService {
      * @return updated Movie
      */
     Movie updateMovie(final Integer id, final Movie movie);
+
+    /**
+     * Find Movie by title
+     * @param title
+     * @return List of Movies
+     */
+    List<Movie> searchMovieByTitle(final String title);
 
 }
