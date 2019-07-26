@@ -11,13 +11,13 @@ import java.util.List;
 @Entity(name = "movie")
 @NamedQueries(value = {
         @NamedQuery(name = "Movie.getAll", query = "SELECT m FROM movie m"),
-        @NamedQuery(name = "Movie.getMovieById", query = "SELECT m FROM movie m WHERE m.imdbid = :id"),
-        @NamedQuery(name = "Movie.deleteMovieById", query = "DELETE FROM movie m WHERE m.imdbid = :id"),
+        @NamedQuery(name = "Movie.getMovieById", query = "SELECT m FROM movie m WHERE m.id = :id"),
+        @NamedQuery(name = "Movie.deleteMovieById", query = "DELETE FROM movie m WHERE m.id = :id"),
         @NamedQuery(
                 name = "Movie.updateMovie",
                 query = "UPDATE movie m SET m.title = :title," +
                         "m.description = :description," +
-                        "m.releaseYear = :releaseYear WHERE m.imdbid = :id"
+                        "m.releaseYear = :releaseYear WHERE m.id = :id"
         )
 })
 public class Movie {
@@ -26,8 +26,8 @@ public class Movie {
     @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "imdbid")
-    private Integer imdbid;
+    @Column(name = "id")
+    private Integer id;
 
     @Getter
     @Setter

@@ -7,6 +7,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -27,5 +28,56 @@ public class MovieServiceImpl implements MovieService {
     public List<Movie> getAllMovies() {
         TypedQuery<Movie> query = this.entityManager.createNamedQuery("Movie.getAll", Movie.class);
         return query.getResultList();
+    }
+
+    @Transactional
+    @Override
+    public Movie createMovie(final Movie movie) {
+        if(movie != null){
+            try {
+                this.entityManager.persist(movie);
+                return movie;
+            }catch (Exception e){
+                e.printStackTrace();
+                return null;
+            }
+        }else{
+            return null;
+        }
+    }
+
+    @Transactional(Transactional.TxType.REQUIRED)
+    @Override
+    public void deleteMovie(final Integer id) {
+        Movie movie = this.entityManager.find(Movie.class, id);
+        if(movie != null){
+            this.entityManager.remove(movie);
+        }
+    }
+
+    @Transactional
+    @Override
+    public Movie updateMovie(final Integer id, final Movie movie) {
+        Movie currentMovie = this.entityManager.find(Movie.class, id);
+        if(currentMovie == null){
+            return null;
+        }else {
+            currentMovie.setDescription(movie.getDescription());
+            currentMovie.setReleaseYear(movie.getReleaseYear());
+            currentMovie.setTitle(movie.getTitle());
+            return this.entityManager.merge(currentMovie);
+        }
+    }
+
+    @Override
+    public Movie getMovieById(final Integer id) {
+        TypedQuery<Movie> q = entityManager.createNamedQuery("Movie.getMovieById", Movie.class);
+        q.setParameter("id", id);
+        try {
+            return q.getSingleResult();
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 }
