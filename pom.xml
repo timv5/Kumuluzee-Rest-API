@@ -22,6 +22,7 @@
         <kumuluzee.version>2.5.0-SNAPSHOT</kumuluzee.version>
         <kumuluzee-openapi.version>1.0.0-SNAPSHOT</kumuluzee-openapi.version>
         <kumuluzee-security.version>1.0.1</kumuluzee-security.version>
+        <kumuluzee-rest.version>1.2.3</kumuluzee-rest.version>
     </properties>
 
     <repositories>
@@ -70,6 +71,11 @@
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>1.18.4</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kumuluz.ee.rest</groupId>
+                <artifactId>kumuluzee-rest-core</artifactId>
+                <version>${kumuluzee-rest.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

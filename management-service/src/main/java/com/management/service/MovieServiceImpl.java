@@ -1,6 +1,7 @@
 package com.management.service;
 
-import com.management.entities.Actor;
+import com.kumuluz.ee.rest.beans.QueryParameters;
+import com.kumuluz.ee.rest.utils.JPAUtils;
 import com.management.entities.Movie;
 
 import javax.annotation.PostConstruct;
@@ -26,9 +27,13 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> getAllMovies() {
-        TypedQuery<Movie> query = this.entityManager.createNamedQuery("Movie.getAll", Movie.class);
-        return query.getResultList();
+    public List<Movie> getAllMovies(final QueryParameters query) {
+        return JPAUtils.queryEntities(this.entityManager, Movie.class, query);
+    }
+
+    @Override
+    public Long getMovieCount(final QueryParameters query) {
+        return JPAUtils.queryEntitiesCount(entityManager, Movie.class, query);
     }
 
     @Transactional

@@ -1,5 +1,6 @@
 package com.management.service;
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.management.entities.Actor;
 import com.management.entities.Movie;
 
@@ -11,7 +12,7 @@ public interface MovieService {
      * Get all Movies
      * @return List of Movies
      */
-    List<Movie> getAllMovies();
+    List<Movie> getAllMovies(final QueryParameters query);
 
     /**
      * Get Movie by Movie id
@@ -45,5 +46,12 @@ public interface MovieService {
      * @return List of Movies
      */
     List<Movie> searchMovieByTitle(final String title);
+
+    /**
+     * Number of returned entities
+     * @param query QueryParameters for GET request
+     * @return Number of enteties to be returned with passed query
+     */
+    Long getMovieCount(final QueryParameters query);
 
 }

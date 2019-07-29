@@ -1,15 +1,18 @@
 package com.management.service;
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
+import com.kumuluz.ee.rest.utils.JPAUtils;
 import com.management.entities.Actor;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.logging.Logger;
 
-@ApplicationScoped
+@RequestScoped
 public class ActorServiceImpl implements ActorService{
 
     private Logger logger = Logger.getLogger(ActorServiceImpl.class.getName());
@@ -22,9 +25,14 @@ public class ActorServiceImpl implements ActorService{
         logger.info("ActorServiceImpl initialized");
     }
 
-    public List<Actor> getAllActors() {
-        TypedQuery<Actor> query = this.entityManager.createNamedQuery("Actor.getAll", Actor.class);
-        return query.getResultList();
+    @Override
+    public List<Actor> getAllActors(final QueryParameters query) {
+        return JPAUtils.queryEntities(entityManager, Actor.class, query);
+    }
+
+    @Override
+    public Long getActorCount(final QueryParameters query){
+        return JPAUtils.queryEntitiesCount(entityManager, Actor.class, query);
     }
 
     @Transactional

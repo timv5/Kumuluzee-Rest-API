@@ -1,5 +1,6 @@
 package com.management.restapi.resource;
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.management.entities.Actor;
 import com.management.entities.Movie;
 import com.management.service.MovieServiceImpl;
@@ -8,8 +9,10 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.util.List;
 
 @Path("/movie")
@@ -18,12 +21,18 @@ import java.util.List;
 @RequestScoped
 public class MovieResource {
 
+    @Context
+    protected UriInfo uriInfo;
+
     @Inject
     private MovieServiceImpl movieService;
 
     @GET
     public Response getAllMovies(){
-        return Response.ok(movieService.getAllMovies()).build();
+        QueryParameters query = QueryParameters.query(this.uriInfo.getRequestUri().getQuery()).build();
+        List<Movie> movies = this.movieService.getAllMovies(query);
+        Long moviesCount = this.movieService.getMovieCount(query);
+        return Response.ok(movies).header("X-Total-Count", moviesCount).build();
     }
 
     @GET
