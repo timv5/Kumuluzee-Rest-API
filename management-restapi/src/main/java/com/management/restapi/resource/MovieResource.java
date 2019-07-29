@@ -1,8 +1,8 @@
 package com.management.restapi.resource;
 
 import com.kumuluz.ee.rest.beans.QueryParameters;
-import com.management.entities.Actor;
 import com.management.entities.Movie;
+import com.management.restapi.requestCounter.RequestCounter;
 import com.management.service.MovieServiceImpl;
 
 import javax.enterprise.context.RequestScoped;
@@ -21,6 +21,8 @@ import java.util.List;
 @RequestScoped
 public class MovieResource {
 
+    private RequestCounter requestCounter = new RequestCounter("C:\\Users\\tvalencic\\Documents\\personal\\jobs\\beenius\\beenius\\management-restapi\\src\\main\\resources\\counter.txt");
+
     @Context
     protected UriInfo uriInfo;
 
@@ -32,6 +34,7 @@ public class MovieResource {
         QueryParameters query = QueryParameters.query(this.uriInfo.getRequestUri().getQuery()).build();
         List<Movie> movies = this.movieService.getAllMovies(query);
         Long moviesCount = this.movieService.getMovieCount(query);
+        this.requestCounter.count();
         return Response.ok(movies).header("X-Total-Count", moviesCount).build();
     }
 
@@ -39,6 +42,7 @@ public class MovieResource {
     @Path("/{id}")
     public Response getMovieById(@PathParam("id") final Integer id) {
         Movie movie = this.movieService.getMovieById(id);
+        this.requestCounter.count();
         if(movie != null){
             return Response.ok(movie).build();
         }else {
@@ -50,6 +54,7 @@ public class MovieResource {
     @Path("/create")
     public Response addMovie(final Movie movie) {
         Movie createdMovie = this.movieService.createMovie(movie);
+        this.requestCounter.count();
         if(createdMovie != null){
             return Response.status(Response.Status.CREATED).entity(createdMovie).build();
         }else{
@@ -62,6 +67,7 @@ public class MovieResource {
     @Transactional
     public Response updateMovie(@PathParam("id") final Integer id, final Movie movie) {
         Movie foundMovie = this.movieService.updateMovie(id, movie);
+        this.requestCounter.count();
         if (foundMovie != null){
             return Response.status(Response.Status.CREATED).entity(foundMovie).build();
         }else {
@@ -73,6 +79,7 @@ public class MovieResource {
     @Path("/delete/{id}")
     public Response deleteMovie(@PathParam("id") final Integer id){
         this.movieService.deleteMovie(id);
+        this.requestCounter.count();
         return Response.status(Response.Status.OK).build();
     }
 
@@ -80,6 +87,7 @@ public class MovieResource {
     @Path("/search")
     public Response searchActorByName(@QueryParam("title") final String title){
         List<Movie> movies = this.movieService.searchMovieByTitle(title);
+        this.requestCounter.count();
         if(!movies.isEmpty()){
             return Response.ok(movies).build();
         }else{

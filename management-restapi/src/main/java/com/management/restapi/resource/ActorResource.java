@@ -2,6 +2,7 @@ package com.management.restapi.resource;
 
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.management.entities.Actor;
+import com.management.restapi.requestCounter.RequestCounter;
 import com.management.service.ActorServiceImpl;
 
 import javax.enterprise.context.RequestScoped;
@@ -20,6 +21,8 @@ import java.util.List;
 @RequestScoped
 public class ActorResource {
 
+    private RequestCounter requestCounter = new RequestCounter("C:\\Users\\tvalencic\\Documents\\personal\\jobs\\beenius\\beenius\\management-restapi\\src\\main\\resources\\counter.txt");
+
     @Context
     protected UriInfo uriInfo;
 
@@ -31,6 +34,8 @@ public class ActorResource {
         QueryParameters query = QueryParameters.query(this.uriInfo.getRequestUri().getQuery()).build();
         List<Actor> actors = this.actorServiceImpl.getAllActors(query);
         Long actorsCount = this.actorServiceImpl.getActorCount(query);
+
+        this.requestCounter.count();
         return Response.ok(actors).header("X-Total-Count", actorsCount).build();
     }
 
@@ -38,6 +43,7 @@ public class ActorResource {
     @Path("/{id}")
     public Response getActorById(@PathParam("id") final Integer id){
         Actor actor = this.actorServiceImpl.getActorById(id);
+        this.requestCounter.count();
         if(actor != null){
             return Response.ok(actor).build();
         }else {
@@ -49,6 +55,7 @@ public class ActorResource {
     @Path("/create")
     public Response addActor(final Actor actor){
         Actor createdActor = this.actorServiceImpl.createActor(actor);
+        this.requestCounter.count();
         if(createdActor != null){
             return Response.status(Response.Status.CREATED).entity(createdActor).build();
         }else{
@@ -61,6 +68,7 @@ public class ActorResource {
     @Transactional
     public Response updateActor(@PathParam("id") final Integer id, final Actor actor){
         Actor foundActor = this.actorServiceImpl.updateActor(id, actor);
+        this.requestCounter.count();
         if (foundActor != null){
             return Response.status(Response.Status.CREATED).entity(foundActor).build();
         }else {
@@ -72,6 +80,7 @@ public class ActorResource {
     @Path("/delete/{id}")
     public Response deleteActor(@PathParam("id") final Integer id){
         this.actorServiceImpl.deleteActor(id);
+        this.requestCounter.count();
         return Response.status(Response.Status.OK).build();
     }
 
@@ -79,6 +88,7 @@ public class ActorResource {
     @Path("/search")
     public Response searchActorByName(@QueryParam("firstname") final String firstname){
         List<Actor> actors = this.actorServiceImpl.searchActorsByName(firstname);
+        this.requestCounter.count();
         if(!actors.isEmpty()){
             return Response.ok(actors).build();
         }else{
