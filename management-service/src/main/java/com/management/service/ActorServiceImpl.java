@@ -53,10 +53,13 @@ public class ActorServiceImpl implements ActorService{
 
     @Override
     @Transactional(Transactional.TxType.REQUIRED)
-    public void deleteActor(final Integer id) {
+    public Actor deleteActor(final Integer id) {
         Actor actor = this.entityManager.find(Actor.class, id);
         if(actor != null){
             this.entityManager.remove(actor);
+            return actor;
+        }else{
+            return null;
         }
     }
 

@@ -12,6 +12,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 import java.util.List;
 
@@ -79,9 +80,13 @@ public class ActorResource {
     @DELETE
     @Path("/delete/{id}")
     public Response deleteActor(@PathParam("id") final Integer id){
-        this.actorServiceImpl.deleteActor(id);
+        Actor actor = this.actorServiceImpl.deleteActor(id);
         this.requestCounter.count();
-        return Response.status(Response.Status.OK).build();
+        if(actor != null){
+            return Response.status(Status.NO_CONTENT).build();
+        }else{
+            return Response.status(Status.NOT_FOUND).build();
+        }
     }
 
     @GET

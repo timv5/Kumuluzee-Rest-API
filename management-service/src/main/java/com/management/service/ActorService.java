@@ -30,7 +30,7 @@ public interface ActorService {
      * Delete Actor
      * @param id Actor id to be deleted
      */
-    void deleteActor(final Integer id);
+    Actor deleteActor(final Integer id);
 
     /**
      * Update actor
