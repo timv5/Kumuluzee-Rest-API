@@ -28,3 +28,4 @@ Http requests:
 Request counter:
 
 Every request is counted (with a help of RequestCounter.java class) - available in counter.txt
+You should change relative path to counter.txt in ActorResource.java and MovieResource.java.
