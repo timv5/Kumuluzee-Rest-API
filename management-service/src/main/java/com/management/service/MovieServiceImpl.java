@@ -54,10 +54,13 @@ public class MovieServiceImpl implements MovieService {
 
     @Transactional(Transactional.TxType.REQUIRED)
     @Override
-    public void deleteMovie(final Integer id) {
+    public Movie deleteMovie(final Integer id) {
         Movie movie = this.entityManager.find(Movie.class, id);
         if(movie != null){
             this.entityManager.remove(movie);
+            return movie;
+        }else{
+            return null;
         }
     }
 

@@ -71,16 +71,19 @@ public class MovieResource {
         if (foundMovie != null){
             return Response.status(Response.Status.CREATED).entity(foundMovie).build();
         }else {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
 
     @DELETE
     @Path("/delete/{id}")
     public Response deleteMovie(@PathParam("id") final Integer id){
-        this.movieService.deleteMovie(id);
+        Movie deletedMovie = this.movieService.deleteMovie(id);
         this.requestCounter.count();
-        return Response.status(Response.Status.OK).build();
+        if(deletedMovie != null){
+            return Response.status(Response.Status.OK).build();
+        }
+        return Response.status(Response.Status.NOT_FOUND).build();
     }
 
     @GET

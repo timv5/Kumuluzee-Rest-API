@@ -31,7 +31,7 @@ public interface MovieService {
      * Delete Movie
      * @param id Movie id to be deleted
      */
-    void deleteMovie(final Integer id);
+    Movie deleteMovie(final Integer id);
 
     /**
      * Update Movie
