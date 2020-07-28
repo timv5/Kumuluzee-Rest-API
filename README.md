@@ -1,4 +1,4 @@
-# Beenius backend coding challange
+# Java Rest API example using Kumuluzee framework
 
 Technologies and patterns used:
 - JPA, EJB, maven, kumuluzee, postgres
